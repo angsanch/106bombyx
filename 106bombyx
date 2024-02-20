@@ -8,12 +8,62 @@
 
 import sys
 
+def print_usage():
+	print("USAGE")
+	print("\t./106bombyx n [k | i0 i1]\n")
+	print("DESCRIPTION")
+	print("\tn\tnumber of first generation individuals")
+	print("\tk\tgrowth rate from 1 to 4")
+	print("\ti0\tinitial generation (included)")
+	print("\ti1\tfinal generation (included)")
+
+def func2(data):
+	result 
+
+def func1(data):
+	results = []
+
+	if data['k'] < 1 or data['k'] > 4:
+		raise ValueError("growth rate should be between 1 and 4")
+	for i in range(100):
+		results.append(data['xi'])
+		data['xi'] = round(data['k'] * data['xi'] * (1000 - data['xi']) / 1000, 2)
+
+def name(data):
+	if len(sys.argv) == 3:
+		func1(data)
+	if len(sys.argv) == 4:
+		func2(data)
+
+def parse_parameters():
+	if len(sys.argv) == 3:
+		data = {
+			"n": float(sys.argv[1]),
+			"k": float(sys.argv[2]),
+			"xi": float(sys.argv[1])
+		}
+	elif len(sys.argv) == 4:
+		data = {
+			"n": int(sys.argv[1]),
+			"i0": int(sys.argv[2]),
+			"i1": int(sys.argv[3]),
+		}
+	else:
+		raise Exception("Invalid amount of arguments")
+	return data
+
 def main():
-	pass
+	if len(sys.argv) == 2 and sys.argv[1] == "-h":
+		print_usage()
+	elif len(sys.argv) != 3 or len(sys.argv) != 4:
+		data = parse_parameters()
+		name(data)
+	else:
+		raise Exception("Invalid amount of arguments")
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        print(e, file=sys.stderr)
-        exit(84)
+	try:
+		main()
+	except Exception as e:
+		print(e, file=sys.stderr)
+		exit(84)
