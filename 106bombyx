@@ -27,7 +27,9 @@ def func1(data):
 		raise ValueError("growth rate should be between 1 and 4")
 	for i in range(100):
 		results.append(data['xi'])
-		data['xi'] = round(data['k'] * data['xi'] * (1000 - data['xi']) / 1000, 2)
+		data['xi'] = data['k'] * data['xi'] * (1000 - data['xi']) / 1000
+	for i in range(100):
+		print(f"{i + 1} {results[i]:.2f}")
 
 def name(data):
 	if len(sys.argv) == 3:
