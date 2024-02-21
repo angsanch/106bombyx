@@ -27,8 +27,10 @@ def calculate_popu_range(k, n, start, end):
     return result
 
 def synthetic_scheme(data):
-    result = calculate_popu_range(1.02, data["n"], data["i0"], data["i1"] + 1)
-    print(result)
+    for i in range(100, 401):
+        result = calculate_popu_range(i / 100, data["n"], data["i0"], data["i1"] + 1)
+        for j in range(len(result)):
+            print(f"{i / 100:.2f} {result[j]:.2f}")
 
 def population_evolution(data):
     results = calculate_popu_range(data["k"], data["n"], 0, 100)
