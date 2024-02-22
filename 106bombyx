@@ -7,6 +7,7 @@
 ##
 
 import sys
+import parser
 
 def print_usage():
     print("USAGE")
@@ -26,52 +27,33 @@ def calculate_popu_range(k, n, start, end):
         n = k * n * (1000 - n) / 1000
     return result
 
-def synthetic_scheme(data):
+def synthetic_scheme():
+    data = parser.parse()
     for i in range(100, 401):
-        result = calculate_popu_range(i / 100, data["n"], data["i0"], data["i1"] + 1)
+        result = calculate_popu_range(i / 100, data["n"], data["i0"],
+            data["i1"] + 1)
         for j in range(len(result)):
             print(f"{i / 100:.2f} {result[j]:.2f}")
 
-def population_evolution(data):
+def population_evolution():
+    data = parser.parse()
     results = calculate_popu_range(data["k"], data["n"], 0, 100)
 
     for i in range(len(results)):
         print(f"{i + 1} {results[i]:.2f}")
 
-def parse_parameters():
-    if len(sys.argv) == 3:
-        data = {
-            "n": int(sys.argv[1]),
-            "k": float(sys.argv[2]),
-        }
-        if data['k'] <= 1 or data['k'] >= 4:
-            raise ValueError("Growth rate should be between 1 and 4")
-    elif len(sys.argv) == 4:
-        data = {
-            "n": int(sys.argv[1]),
-            "i0": int(sys.argv[2]),
-            "i1": int(sys.argv[3]),
-        }
-        if not data["i0"] < data["i1"]:
-            raise ValueError("i1 must be greater than i0")
-        if data["i0"] < 0 or data["i1"] < 0:
-            raise ValueError("i0 and i1 must be positive")
-    else:
-        raise Exception("Invalid amount of arguments")
-    if data["n"] < 0:
-        raise ValueError("n cant be negative")
-    return data
-
 def main():
-    data = parse_parameters()
-    if len(sys.argv) == 2 and sys.argv[1] == "-h":
-        print_usage()
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "-h":
+            print_usage()
+        else:
+            raise Exception("Unrecognized argument")
     elif len(sys.argv) == 3:
-        population_evolution(data)
+        population_evolution()
     elif len(sys.argv) == 4:
-        synthetic_scheme(data)
+        synthetic_scheme()
     else:
-        raise Exception("Invalid amount of arguments")
+        raise Exception("Invalid amount of parameters")
 
 if __name__ == "__main__":
     try:
