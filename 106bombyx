@@ -21,10 +21,11 @@ def print_usage():
 def calculate_popu_range(k, n, start, end):
     result = []
 
+    n *= 1000
     for i in range(end):
         if i >= start and i < end:
-            result.append(n)
-        n = k * n * (1000 - n) / 1000
+            result.append(n / 1000)
+        n = k * n * (1_000_000 - n) / 1_000_000
     return result
 
 def synthetic_scheme():
