@@ -10,7 +10,7 @@ import sys
 import parser
 from decimal import Decimal, getcontext
 
-getcontext().prec = 42
+getcontext().prec = 17
 
 def print_usage():
     print("USAGE")
