@@ -8,6 +8,7 @@
 
 import sys
 import parser
+from decimal import Decimal, getcontext
 
 def print_usage():
     print("USAGE")
@@ -21,18 +22,16 @@ def print_usage():
 def calculate_popu_range(k, n, start, end):
     result = []
 
-    n *= 1000
     for i in range(end):
         if i >= start and i < end:
-            result.append(n / 1000)
-        n = k * n * (1_000_000 - n) / 1_000_000
+            result.append(n if n > 0 else 0)
+        n = k * n * ((1000 - n) / 1000)
     return result
 
 def synthetic_scheme():
     data = parser.parse()
     for i in range(100, 401):
-        result = calculate_popu_range(i / 100, data["n"], data["i0"],
-            data["i1"] + 1)
+        result = calculate_popu_range(i / 100, data["n"], data["i0"] - 1, data["i1"])
         for j in range(len(result)):
             print(f"{i / 100:.2f} {result[j]:.2f}")
 
