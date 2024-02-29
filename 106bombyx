@@ -24,12 +24,10 @@ def print_usage():
 def calculate_popu_range(k, n, start, end):
     result = []
 
-    n = Decimal(n)
-    k = Decimal(k)
     for i in range(end):
         if i >= start and i < end:
             result.append(float(n if n > 0 else 0))
-        n = k * n * Decimal((1000 - n) / 1000)
+        n = k * n * ((1000 - n) / 1000)
     return result
 
 def synthetic_scheme():
