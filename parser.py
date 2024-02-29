@@ -13,7 +13,7 @@ def synth_sch_parse() -> dict:
         "i0": int(sys.argv[2]),
         "i1": int(sys.argv[3]),
     }
-    if not data["i0"] < data["i1"]:
+    if not data["i0"] <= data["i1"]:
         raise ValueError("i1 must be greater than i0")
     if data["i0"] < 0 or data["i1"] < 0:
         raise ValueError("i0 and i1 must be positive")
