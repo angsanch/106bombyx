@@ -8,9 +8,7 @@
 
 import sys
 import parser
-from decimal import Decimal, getcontext
-
-getcontext().prec = 17
+import matplotlib.pyplot as plt
 
 def print_usage():
     print("USAGE")
@@ -32,10 +30,15 @@ def calculate_popu_range(k, n, start, end):
 
 def synthetic_scheme():
     data = parser.parse()
-    for i in range(100, 401):
-        result = calculate_popu_range(i / 100, data["n"], data["i0"] - 1, data["i1"])
+    rang = [i / 100 for i in range(100, 401)]
+    table = [[], []]
+    for i in rang:
+        result = calculate_popu_range(i, data["n"], data["i0"] - 1, data["i1"])
+        table[0] += [i for _ in result]
+        table[1] += result
         for j in range(len(result)):
-            print(f"{i / 100:.2f} {result[j]:.2f}")
+            print(f"{i:.2f} {result[j]:.2f}")
+    return table
 
 def population_evolution():
     data = parser.parse()
@@ -43,6 +46,7 @@ def population_evolution():
 
     for i in range(len(results)):
         print(f"{i + 1} {results[i]:.2f}")
+    return range(len(results)), results
 
 def main():
     if len(sys.argv) == 2:
@@ -51,9 +55,15 @@ def main():
         else:
             raise Exception("Unrecognized argument")
     elif len(sys.argv) == 3:
-        population_evolution()
+        plt.plot(*population_evolution())
+        plt.ylabel("population")
+        plt.xlabel("generations")
+        plt.show()
     elif len(sys.argv) == 4:
-        synthetic_scheme()
+        plt.plot(*synthetic_scheme(), "ro", markersize=0.1)
+        plt.ylabel("stable value")
+        plt.xlabel("growth rate")
+        plt.show()
     else:
         raise Exception("Invalid amount of parameters")
 
